@@ -404,6 +404,9 @@ export function classifyFailoverReasonFromHttpStatus(
     return message ? classify402Message(message) : "billing";
   }
   if (status === 429) {
+    if (message && isOverloadedErrorMessage(message)) {
+      return "overloaded";
+    }
     return "rate_limit";
   }
   if (status === 401 || status === 403) {
